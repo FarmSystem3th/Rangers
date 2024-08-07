@@ -1,0 +1,40 @@
+# Gradle 관련
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+!gradle/wrapper/gradle-wrapper.properties
+
+# IntelliJ IDEA 관련
+.idea/
+*.iml
+*.iws
+.idea_modules/
+*.ipr
+
+# 로그 파일
+*.log
+
+# 운영체제 관련
+.DS_Store
+Thumbs.db
+
+# 환경 변수 파일
+.env*
+
+# Spring Boot 관련
+/hs_err_pid*
+/*.hprof
+*.swp
+.swp
+
+# 빌드 디렉토리
+/out/
+
+# 임시 파일
+*.tmp
+*.bak
+*.swp
+*.swo
+
+# src/main/resources 폴더의 모든 내용 포함
+!/src/main/resources/
