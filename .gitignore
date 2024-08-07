@@ -4,21 +4,12 @@ build/
 !gradle/wrapper/gradle-wrapper.jar
 !gradle/wrapper/gradle-wrapper.properties
 
-# IDE 관련
-# IntelliJ IDEA
+# IntelliJ IDEA 관련
 .idea/
 *.iml
 *.iws
 .idea_modules/
 *.ipr
-
-# Eclipse
-.classpath
-.project
-.settings/
-
-# VS Code
-.vscode/
 
 # 로그 파일
 *.log
@@ -28,7 +19,7 @@ build/
 Thumbs.db
 
 # 환경 변수 파일
-.env
+.env*
 
 # Spring Boot 관련
 /hs_err_pid*
@@ -45,12 +36,5 @@ Thumbs.db
 *.swp
 *.swo
 
-# 특정 파일 및 디렉토리 제외
-!/src/main/resources/static/
-!/src/main/resources/templates/
-
-# 스프링 부트 애플리케이션 설정 (application.yml만 제외)
-# resources 폴더 내의 application.yml을 제외하고 나머지 파일들 포함
-/src/main/resources/
-!/src/main/resources/**/
-!.gitignore
+# src/main/resources 폴더의 모든 내용 포함
+!/src/main/resources/
