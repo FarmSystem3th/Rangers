@@ -1,0 +1,54 @@
+# Gradle 관련
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+
+# IDE 관련
+# IntelliJ IDEA
+.idea/
+*.iml
+*.iws
+.idea_modules/
+*.ipr
+
+# Eclipse
+.classpath
+.project
+.settings/
+
+# VS Code
+.vscode/
+
+# 로그 파일
+*.log
+
+# 운영체제 관련
+.DS_Store
+Thumbs.db
+
+# 환경 변수 파일
+.env
+
+# Spring Boot 관련
+/hs_err_pid*
+/*.hprof
+*.swp
+.swp
+
+# 빌드 디렉토리
+/out/
+
+# 임시 파일
+*.tmp
+*.bak
+*.swp
+*.swo
+
+# 특정 파일 및 디렉토리 제외
+!/src/main/resources/static/
+!/src/main/resources/templates/
+
+# 스프링 부트 애플리케이션 설정
+application.yml
+application-*.yml
+application-*.properties
