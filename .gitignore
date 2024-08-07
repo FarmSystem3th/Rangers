@@ -2,6 +2,7 @@
 .gradle/
 build/
 !gradle/wrapper/gradle-wrapper.jar
+!gradle/wrapper/gradle-wrapper.properties
 
 # IDE 관련
 # IntelliJ IDEA
@@ -48,7 +49,8 @@ Thumbs.db
 !/src/main/resources/static/
 !/src/main/resources/templates/
 
-# 스프링 부트 애플리케이션 설정
-application.yml
-application-*.yml
-application-*.properties
+# 스프링 부트 애플리케이션 설정 (application.yml만 제외)
+# resources 폴더 내의 application.yml을 제외하고 나머지 파일들 포함
+/src/main/resources/
+!/src/main/resources/**/
+!.gitignore
