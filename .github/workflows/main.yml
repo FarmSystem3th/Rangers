@@ -36,8 +36,9 @@ jobs:
         echo "${{ secrets.EC2_SSH_KEY }}" > ${{ runner.temp }}/key.pem
         chmod 600 ${{ runner.temp }}/key.pem
 
-    - name: Add SSH known hosts
+    - name: Set up SSH known hosts
       run: |
+        mkdir -p ~/.ssh
         ssh-keyscan -H ${{ secrets.EC2_SERVER_HOST }} >> ~/.ssh/known_hosts
 
     - name: Debug SSH key
