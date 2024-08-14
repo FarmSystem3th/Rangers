@@ -1,6 +1,7 @@
 # Gradle 관련
 .gradle/
-build/
+# build/ 디렉토리를 포함시키지 않으려면 주석 처리하거나 제거하세요.
+# build/
 !gradle/wrapper/gradle-wrapper.jar
 !gradle/wrapper/gradle-wrapper.properties
 
@@ -28,7 +29,8 @@ Thumbs.db
 .swp
 
 # 빌드 디렉토리
-/out/
+# /out/ 디렉토리도 무시합니다. 필요에 따라 설정을 조정하세요.
+# /out/
 
 # 임시 파일
 *.tmp
