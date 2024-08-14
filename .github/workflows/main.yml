@@ -31,11 +31,33 @@ jobs:
       run: |
         docker build -t rangers:latest .
 
-    - name: Deploy to EC2
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest # OS 환경
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: EC2로 파일 보내기
       uses: appleboy/scp-action@v0.1.1
       with:
-        host: ${{ secrets.EC2_SERVER_HOST }}
         username: ubuntu
-        password: ${{ secrets.EC2_PASSWORD }}  # 비밀번호를 secret으로 추가
+        host: ${{ secrets.EC2_SERVER_HOST }}
+        key: ${{ secrets.EC2_SSH_KEY }}  
+        port: 22
         source: "build/libs/rangers-0.0.1-SNAPSHOT.jar,entry.sh"
         target: "/home/ubuntu/app/"
+
+    - name: 배포
+      uses: appleboy/ssh-action@v0.1.1
+      with:
+        username: ubuntu
+        host: ${{ secrets.EC2_SERVER_HOST }}
+        key: ${{ secrets.EC2_SSH_KEY }}  
+        envs: GITHUB_SHA
+        script: |
+          export IMAGE_TAG=${GITHUB_SHA::7}
+          export DOCKER_USERNAME=${{ secrets.DOCKER_USERNAME }}
+          chmod 777 /home/ubuntu/app/entry.sh
+          /home/ubuntu/app/entry.sh $IMAGE_TAG $DOCKER_USERNAME
