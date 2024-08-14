@@ -37,3 +37,8 @@ dependencies {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
+jar {
+	archiveBaseName.set('rangers')
+	archiveVersion.set('0.0.1-SNAPSHOT')
+}
