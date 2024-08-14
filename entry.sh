@@ -1,22 +1,24 @@
 #!/bin/bash
 
+set -e # 오류 발생 시 스크립트 종료
+
 DOCKER_APP_NAME=rangers
 
 # 현재 실행 중인 컨테이너 확인
-EXIST_BLUE=$(docker-compose -p ${DOCKER_APP_NAME}-blue -f docker-compose.blue.yml ps | grep Up)
+EXIST_BLUE=$(docker-compose -p ${DOCKER_APP_NAME}-blue -f docker-compose.blue.yml ps -q)
 
-if [ -z "$EXIST_BLUE" ]; then
+if [ -n "$EXIST_BLUE" ]; then
+    echo "Blue container is already running."
+    docker-compose -p ${DOCKER_APP_NAME}-green -f docker-compose.green.yml up -d --build
+    sudo cp ./nginx.green.conf /etc/nginx/nginx.conf
+    BEFORE_COMPOSE_COLOR="blue"
+    AFTER_COMPOSE_COLOR="green"
+else
     echo "Starting Blue..."
     docker-compose -p ${DOCKER_APP_NAME}-blue -f docker-compose.blue.yml up -d --build
     sudo cp ./nginx.blue.conf /etc/nginx/nginx.conf
     BEFORE_COMPOSE_COLOR="green"
     AFTER_COMPOSE_COLOR="blue"
-else
-    echo "Starting Green..."
-    docker-compose -p ${DOCKER_APP_NAME}-green -f docker-compose.green.yml up -d --build
-    sudo cp ./nginx.green.conf /etc/nginx/nginx.conf
-    BEFORE_COMPOSE_COLOR="blue"
-    AFTER_COMPOSE_COLOR="green"
 fi
 
 sleep 10
