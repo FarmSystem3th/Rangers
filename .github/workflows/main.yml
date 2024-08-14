@@ -51,9 +51,10 @@ jobs:
       with:
         host: ${{ secrets.EC2_SERVER_HOST }}
         username: ubuntu
-        key: ${{ runner.temp }}/key.pem
+        password: ${{ secrets.EC2_PASSWORD }}  # 비밀번호를 secret으로 추가
         source: "build/libs/rangers-0.0.1-SNAPSHOT.jar,entry.sh"
         target: "/home/ubuntu/app/"
+
 
     - name: SSH and switch containers
       uses: appleboy/ssh-action@v0.1.0
