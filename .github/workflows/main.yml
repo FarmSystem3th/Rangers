@@ -18,10 +18,12 @@ jobs:
       uses: actions/setup-java@v3
       with:
         java-version: '17'
-        distribution: 'adopt'
+        distribution: 'temurin'  # AdoptOpenJDK에서 Temurin으로 변경
 
     - name: Build with Gradle
-      run: ./gradlew clean build
+      run: |
+        chmod +x gradlew  # gradlew 실행 권한 부여
+        ./gradlew clean build
 
     - name: 현재 디렉토리 확인
       run: pwd
@@ -89,7 +91,6 @@ jobs:
         target: "/home/ubuntu/app/"
         rm: true
         overwrite: true
-
 
     - name: 배포
       uses: appleboy/ssh-action@v0.1.1
