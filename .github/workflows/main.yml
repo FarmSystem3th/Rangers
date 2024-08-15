@@ -59,7 +59,7 @@ jobs:
         key: ${{ secrets.EC2_SSH_KEY }}
         port: 22
         source: |
-          ${{ github.workspace }}/build/libs/*.jar
+          ${{ github.workspace }}/build/libs/rangers-0.0.1-SNAPSHOT.jar
           ${{ github.workspace }}/entry.sh
           ${{ github.workspace }}/docker-compose.blue.yml
           ${{ github.workspace }}/docker-compose.green.yml
