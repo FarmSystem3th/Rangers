@@ -36,9 +36,6 @@ jobs:
     runs-on: ubuntu-latest # OS 환경
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
-
     - name: List all required files
       run: |
         ls -la build/libs/
@@ -50,7 +47,6 @@ jobs:
         cat Dockerfile
         cat src/main/resources/application.yml
 
-      
     - name: EC2로 파일 보내기
       uses: appleboy/scp-action@v0.1.1
       with:
@@ -68,7 +64,6 @@ jobs:
           ${{ github.workspace }}/Dockerfile
           ${{ github.workspace }}/src/main/resources/application.yml
         target: "/home/ubuntu/app/"
-
 
     - name: 배포
       uses: appleboy/ssh-action@v0.1.1
