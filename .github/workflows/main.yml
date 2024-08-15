@@ -71,9 +71,16 @@ jobs:
         cat nginx.blue.conf
         cat nginx.green.conf
         cat Dockerfile
+        
+    - name: Debugging file paths and permissions
+      run: |
+        ls -la /home/runner/work/Rangers-BE/Rangers-BE/
+        cat /home/runner/work/Rangers-BE/Rangers-BE/src/main/resources/application.yml
 
     - name: EC2로 파일 보내기
       uses: appleboy/scp-action@v0.1.1
+      env:
+        DEBUG: true
       with:
         username: ubuntu
         host: ${{ secrets.EC2_SERVER_HOST }}
