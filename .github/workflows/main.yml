@@ -9,7 +9,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest # OS 환경
+    runs-on: ubuntu-latest
     steps:
     - name: Checkout repository
       uses: actions/checkout@v3
@@ -32,6 +32,9 @@ jobs:
     - name: Docker build
       run: docker build -t rangers:latest .
 
+    - name: List files in repository root
+      run: ls -la  # 루트 디렉토리 파일 목록 확인
+
     - name: Upload build artifacts
       uses: actions/upload-artifact@v2
       with:
@@ -49,7 +52,7 @@ jobs:
           nginx.green.conf
           Dockerfile
           src/main/resources/application.yml
-          entry.sh  # Ensure entry.sh is included
+          entry.sh  # entry.sh 파일 경로 확인
 
   deploy:
     needs: build
@@ -78,7 +81,7 @@ jobs:
         cat nginx.green.conf
         cat Dockerfile
         cat src/main/resources/application.yml
-        cat entry.sh
+        cat entry.sh  # entry.sh 파일 존재 확인
 
     - name: EC2로 파일 보내기
       uses: appleboy/scp-action@v0.1.1
