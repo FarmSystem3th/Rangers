@@ -54,6 +54,7 @@ jobs:
           nginx.blue.conf
           nginx.green.conf
           Dockerfile
+          src/main/resources/application.yml
         target: "/home/ubuntu/app/"
 
     - name: 배포
