@@ -46,7 +46,6 @@ jobs:
       
     - name: List all required files
       run: |
-        ls -la build/libs/
         ls -la
         cat docker-compose.blue.yml
         cat docker-compose.green.yml
