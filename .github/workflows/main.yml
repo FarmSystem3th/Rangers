@@ -24,6 +24,10 @@ jobs:
     - name: Build with Gradle
       run: ./gradlew clean build
 
+    - name: Check current directory
+      run: pwd
+
+
     - name: List files in build/libs
       run: ls -la build/libs
 
@@ -35,7 +39,11 @@ jobs:
     needs: build
     runs-on: ubuntu-latest # OS 환경
 
+
     steps:
+    - name: Check current directory
+      run: pwd
+      
     - name: List all required files
       run: |
         ls -la build/libs/
