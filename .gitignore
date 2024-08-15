@@ -1,9 +1,9 @@
 # Gradle 관련
 .gradle/
-# build/ 디렉토리를 포함시키지 않으려면 주석 처리하거나 제거하세요.
-# build/
 !gradle/wrapper/gradle-wrapper.jar
 !gradle/wrapper/gradle-wrapper.properties
+!build/libs/
+
 
 # IntelliJ IDEA 관련
 .idea/
