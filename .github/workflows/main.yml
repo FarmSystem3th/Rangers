@@ -78,14 +78,14 @@ jobs:
         key: ${{ secrets.EC2_SSH_KEY }}
         port: 22
         source: |
-          build/libs/rangers-0.0.1-SNAPSHOT.jar
-          entry.sh
-          docker-compose.blue.yml
-          docker-compose.green.yml
-          nginx.blue.conf
-          nginx.green.conf
-          Dockerfile
-          src/main/resources/application.yml
+          ./build/libs/rangers-0.0.1-SNAPSHOT.jar
+          ./entry.sh
+          ./docker-compose.blue.yml
+          ./docker-compose.green.yml
+          ./nginx.blue.conf
+          ./nginx.green.conf
+          ./Dockerfile
+          ./src/main/resources/application.yml
         target: "/home/ubuntu/app/"
 
     - name: 배포
