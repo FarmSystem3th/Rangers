@@ -47,7 +47,7 @@ jobs:
         key: ${{ secrets.EC2_SSH_KEY }}
         port: 22
         source: |
-          build/libs/rangers-0.0.1-SNAPSHOT.jar
+          build/libs/*.jar
           entry.sh
           docker-compose.blue.yml
           docker-compose.green.yml
