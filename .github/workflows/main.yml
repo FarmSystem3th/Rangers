@@ -10,7 +10,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest # OS 환경
-
     steps:
     - name: Checkout repository
       uses: actions/checkout@v3
@@ -27,23 +26,48 @@ jobs:
     - name: Check current directory
       run: pwd
 
-
     - name: List files in build/libs
-      run: ls -la
+      run: ls -la build/libs
 
     - name: Docker build
-      run: |
-        docker build -t rangers:latest .
+      run: docker build -t rangers:latest .
+
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: build-artifacts
+        path: build/libs/*.jar
+
+    - name: Upload config files
+      uses: actions/upload-artifact@v2
+      with:
+        name: config-files
+        path: |
+          docker-compose.blue.yml
+          docker-compose.green.yml
+          nginx.blue.conf
+          nginx.green.conf
+          Dockerfile
+          src/main/resources/application.yml
 
   deploy:
     needs: build
-    runs-on: ubuntu-latest # OS 환경
-
-
+    runs-on: ubuntu-latest
     steps:
+    - name: Download build artifacts
+      uses: actions/download-artifact@v2
+      with:
+        name: build-artifacts
+        path: build/libs
+
+    - name: Download config files
+      uses: actions/download-artifact@v2
+      with:
+        name: config-files
+
     - name: Check current directory
       run: pwd
-      
+
     - name: List all required files
       run: |
         ls -la
@@ -62,14 +86,14 @@ jobs:
         key: ${{ secrets.EC2_SSH_KEY }}
         port: 22
         source: |
-          ${{ github.workspace }}/build/libs/rangers-0.0.1-SNAPSHOT.jar
-          ${{ github.workspace }}/entry.sh
-          ${{ github.workspace }}/docker-compose.blue.yml
-          ${{ github.workspace }}/docker-compose.green.yml
-          ${{ github.workspace }}/nginx.blue.conf
-          ${{ github.workspace }}/nginx.green.conf
-          ${{ github.workspace }}/Dockerfile
-          ${{ github.workspace }}/src/main/resources/application.yml
+          build/libs/rangers-0.0.1-SNAPSHOT.jar
+          entry.sh
+          docker-compose.blue.yml
+          docker-compose.green.yml
+          nginx.blue.conf
+          nginx.green.conf
+          Dockerfile
+          src/main/resources/application.yml
         target: "/home/ubuntu/app/"
 
     - name: 배포
