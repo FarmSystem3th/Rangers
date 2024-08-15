@@ -32,9 +32,6 @@ jobs:
     - name: Docker build
       run: docker build -t rangers:latest .
 
-    - name: 루트 디렉토리 파일 목록 확인
-      run: ls -la  
-
     - name: 아티팩트 업로드
       uses: actions/upload-artifact@v2
       with:
@@ -48,7 +45,6 @@ jobs:
           nginx.blue.conf
           nginx.green.conf
           Dockerfile
-          
 
   deploy:
     needs: build
@@ -57,7 +53,7 @@ jobs:
     - name: Download all artifacts
       uses: actions/download-artifact@v2
       with:
-        name: all-artifacts  # 이전에 업로드한 아티팩트 이름과 일치
+        name: all-artifacts
         path: /home/runner/work/Rangers-BE/Rangers-BE/
 
     - name: Check current directory
@@ -104,4 +100,3 @@ jobs:
           export DOCKER_USERNAME=${{ secrets.DOCKER_USERNAME }}
           chmod 777 /home/ubuntu/app/entry.sh
           /home/ubuntu/app/entry.sh $IMAGE_TAG $DOCKER_USERNAME
-
