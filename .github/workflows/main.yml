@@ -38,7 +38,7 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
-
+      
     - name: EC2로 파일 보내기
       uses: appleboy/scp-action@v0.1.1
       with:
@@ -47,15 +47,16 @@ jobs:
         key: ${{ secrets.EC2_SSH_KEY }}
         port: 22
         source: |
-          build/libs/*.jar
-          entry.sh
-          docker-compose.blue.yml
-          docker-compose.green.yml
-          nginx.blue.conf
-          nginx.green.conf
-          Dockerfile
-          ./src/main/resources/application.yml
+          ${{ github.workspace }}/build/libs/*.jar
+          ${{ github.workspace }}/entry.sh
+          ${{ github.workspace }}/docker-compose.blue.yml
+          ${{ github.workspace }}/docker-compose.green.yml
+          ${{ github.workspace }}/nginx.blue.conf
+          ${{ github.workspace }}/nginx.green.conf
+          ${{ github.workspace }}/Dockerfile
+          ${{ github.workspace }}/src/main/resources/application.yml
         target: "/home/ubuntu/app/"
+
 
     - name: 배포
       uses: appleboy/ssh-action@v0.1.1
