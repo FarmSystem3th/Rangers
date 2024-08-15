@@ -11,4 +11,5 @@ COPY build/libs/rangers-0.0.1-SNAPSHOT.jar /app/rangers.jar
 EXPOSE 8080
 
 # Run the JAR file
-ENTRYPOINT ["java", "-jar", "app.jar"]
+ENTRYPOINT ["java", "-jar", "rangers.jar"]
+
