@@ -5,7 +5,7 @@ on:
     branches: [ main ]
   pull_request:
     branches: [ main ]
-  workflow_dispatch: # 수동 실행도 가능하도록
+  workflow_dispatch: 
 
 jobs:
   build:
@@ -23,11 +23,11 @@ jobs:
     - name: Build with Gradle
       run: ./gradlew clean build
 
-    - name: Check current directory
+    - name: 현재 디렉토리 확인
       run: pwd
 
-    - name: List files in build/libs
-      run: ls -la build/libs
+    - name: 루트 디렉토리 파일 목록 확인
+      run: ls -la 
 
     - name: Docker build
       run: docker build -t rangers:latest .
@@ -35,24 +35,20 @@ jobs:
     - name: List files in repository root
       run: ls -la  # 루트 디렉토리 파일 목록 확인
 
-    - name: Upload build artifacts
+    - name: 아티팩트 업로드
       uses: actions/upload-artifact@v2
       with:
-        name: build-artifacts
-        path: build/libs/*.jar
-
-    - name: Upload config and script files
-      uses: actions/upload-artifact@v2
-      with:
-        name: config-files
+        name: all-artifacts
         path: |
+          build/libs/*.jar
+          src/main/resources/application.yml
+          entry.sh
           docker-compose.blue.yml
           docker-compose.green.yml
           nginx.blue.conf
           nginx.green.conf
           Dockerfile
-          src/main/resources/application.yml
-          entry.sh  # entry.sh 파일 경로 확인
+          
 
   deploy:
     needs: build
@@ -75,13 +71,14 @@ jobs:
     - name: List all required files
       run: |
         ls -la
+        cat entry.sh 
+        cat src/main/resources/application.yml
         cat docker-compose.blue.yml
         cat docker-compose.green.yml
         cat nginx.blue.conf
         cat nginx.green.conf
         cat Dockerfile
-        cat src/main/resources/application.yml
-        cat entry.sh  # entry.sh 파일 존재 확인
+        
 
     - name: EC2로 파일 보내기
       uses: appleboy/scp-action@v0.1.1
