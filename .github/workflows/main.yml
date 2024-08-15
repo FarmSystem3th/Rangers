@@ -38,7 +38,7 @@ jobs:
         name: build-artifacts
         path: build/libs/*.jar
 
-    - name: Upload config files
+    - name: Upload config and script files
       uses: actions/upload-artifact@v2
       with:
         name: config-files
@@ -49,6 +49,7 @@ jobs:
           nginx.green.conf
           Dockerfile
           src/main/resources/application.yml
+          entry.sh  # Ensure entry.sh is included
 
   deploy:
     needs: build
@@ -60,7 +61,7 @@ jobs:
         name: build-artifacts
         path: build/libs
 
-    - name: Download config files
+    - name: Download config and script files
       uses: actions/download-artifact@v2
       with:
         name: config-files
@@ -77,6 +78,7 @@ jobs:
         cat nginx.green.conf
         cat Dockerfile
         cat src/main/resources/application.yml
+        cat entry.sh
 
     - name: EC2로 파일 보내기
       uses: appleboy/scp-action@v0.1.1
