@@ -38,6 +38,18 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
+
+    - name: List all required files
+      run: |
+        ls -la build/libs/
+        ls -la
+        cat docker-compose.blue.yml
+        cat docker-compose.green.yml
+        cat nginx.blue.conf
+        cat nginx.green.conf
+        cat Dockerfile
+        cat src/main/resources/application.yml
+
       
     - name: EC2로 파일 보내기
       uses: appleboy/scp-action@v0.1.1
