@@ -32,8 +32,8 @@ jobs:
     - name: Docker build
       run: docker build -t rangers:latest .
 
-    - name: List files in repository root
-      run: ls -la  # 루트 디렉토리 파일 목록 확인
+    - name: 루트 디렉토리 파일 목록 확인
+      run: ls -la  
 
     - name: 아티팩트 업로드
       uses: actions/upload-artifact@v2
@@ -54,16 +54,11 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
-    - name: Download build artifacts
+    - name: Download all artifacts
       uses: actions/download-artifact@v2
       with:
-        name: build-artifacts
-        path: build/libs
-
-    - name: Download config and script files
-      uses: actions/download-artifact@v2
-      with:
-        name: config-files
+        name: all-artifacts  # 이전에 업로드한 아티팩트 이름과 일치
+        path: /home/runner/work/Rangers-BE/Rangers-BE/
 
     - name: Check current directory
       run: pwd
@@ -78,7 +73,6 @@ jobs:
         cat nginx.blue.conf
         cat nginx.green.conf
         cat Dockerfile
-        
 
     - name: EC2로 파일 보내기
       uses: appleboy/scp-action@v0.1.1
@@ -110,3 +104,4 @@ jobs:
           export DOCKER_USERNAME=${{ secrets.DOCKER_USERNAME }}
           chmod 777 /home/ubuntu/app/entry.sh
           /home/ubuntu/app/entry.sh $IMAGE_TAG $DOCKER_USERNAME
+
