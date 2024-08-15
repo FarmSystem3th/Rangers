@@ -78,17 +78,18 @@ jobs:
         key: ${{ secrets.EC2_SSH_KEY }}
         port: 22
         source: |
-          ./build/libs/rangers-0.0.1-SNAPSHOT.jar
-          ./entry.sh
-          ./docker-compose.blue.yml
-          ./docker-compose.green.yml
-          ./nginx.blue.conf
-          ./nginx.green.conf
-          ./Dockerfile
-          ./src/main/resources/application.yml
+          /home/runner/work/Rangers-BE/Rangers-BE/build/libs/rangers-0.0.1-SNAPSHOT.jar
+          /home/runner/work/Rangers-BE/Rangers-BE/entry.sh
+          /home/runner/work/Rangers-BE/Rangers-BE/docker-compose.blue.yml
+          /home/runner/work/Rangers-BE/Rangers-BE/docker-compose.green.yml
+          /home/runner/work/Rangers-BE/Rangers-BE/nginx.blue.conf
+          /home/runner/work/Rangers-BE/Rangers-BE/nginx.green.conf
+          /home/runner/work/Rangers-BE/Rangers-BE/Dockerfile
+          /home/runner/work/Rangers-BE/Rangers-BE/src/main/resources/application.yml
         target: "/home/ubuntu/app/"
         rm: true
         overwrite: true
+
 
     - name: 배포
       uses: appleboy/ssh-action@v0.1.1
