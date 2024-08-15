@@ -99,7 +99,6 @@ jobs:
           /home/runner/work/Rangers-BE/Rangers-BE/nginx.blue.conf
           /home/runner/work/Rangers-BE/Rangers-BE/nginx.green.conf
           /home/runner/work/Rangers-BE/Rangers-BE/Dockerfile
-          
         target: "/home/ubuntu/app/"
         rm: true
         overwrite: true
