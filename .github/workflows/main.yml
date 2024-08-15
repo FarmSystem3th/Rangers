@@ -58,6 +58,11 @@ jobs:
         name: all-artifacts
         path: /home/runner/work/Rangers-BE/Rangers-BE/
 
+    - name: Set file permissions for all artifacts
+      run: |
+        chmod 644 /home/runner/work/Rangers-BE/Rangers-BE/*.*
+        chmod 755 /home/runner/work/Rangers-BE/Rangers-BE/*.sh
+
     - name: Check current directory
       run: pwd
 
