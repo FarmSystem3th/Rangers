@@ -87,6 +87,8 @@ jobs:
           ./Dockerfile
           ./src/main/resources/application.yml
         target: "/home/ubuntu/app/"
+        rm: true
+        overwrite: true
 
     - name: 배포
       uses: appleboy/ssh-action@v0.1.1
