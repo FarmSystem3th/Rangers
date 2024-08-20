@@ -40,3 +40,9 @@ Thumbs.db
 
 # src/main/resources 폴더의 모든 내용 포함
 !/src/main/resources/
+
+# ci/cd 관련
+docker-compose.yml
+deploy.sh
+blue-nginx.conf
+green-nginx.conf
