@@ -1,7 +1,9 @@
 spring:
+  config:
+    import: optional:file:.env[.properties]
   datasource:
     url: ${DATABASE_URL}
-    username: ${DATABASE_HOST}
+    username: ${DATABASE_USER}
     password: ${DATABASE_PW}
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
