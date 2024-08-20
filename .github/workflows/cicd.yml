@@ -1,4 +1,4 @@
-name: Onetime CI/CD with Gradle
+name: Rangers CI/CD with Gradle
 
 on:
   pull_request:
