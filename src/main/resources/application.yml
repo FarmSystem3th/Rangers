@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: ${RDS_HOST}
+    url: ${DATABASE_HOST}
     username: ${DATABASE_USERNAME}
     password: ${DATABASE_PASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
