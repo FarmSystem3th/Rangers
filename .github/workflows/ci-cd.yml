@@ -1,4 +1,4 @@
-name: Java CI with Gradle
+name: Rangers CI/CD Pipeline
 
 on:
   push:
