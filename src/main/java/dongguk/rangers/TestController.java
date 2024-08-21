@@ -10,6 +10,6 @@ public class TestController {
 
     @GetMapping
     public String home() {
-        return "Hello, World!";
+        return "CI/CD Test";
     }
 }
