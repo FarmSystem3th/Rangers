@@ -24,9 +24,6 @@ public class Path {
     private Long userId;
 
     @Column(nullable = false)
-    private LocalDateTime timestamp;
-
-    @Column(nullable = false)
     private String start;
 
     @Column(nullable = false)
@@ -35,4 +32,15 @@ public class Path {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private PathState state;
+
+    @Column(nullable = false)
+    private LocalDateTime startTime;
+
+    @Column(nullable = true)
+    private LocalDateTime endTime;
+
+    public void updateState(PathState newState, LocalDateTime newEndTime) {
+        this.state = newState;  // 상태 업데이트
+        this.endTime = newEndTime;  // 도착 시간 업데이트
+    }
 }
