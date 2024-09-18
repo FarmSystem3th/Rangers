@@ -14,7 +14,7 @@ public class PathConverter {
                 .userId(pathRequestDTO.getUserId())
                 .start(pathRequestDTO.getStart())
                 .end(pathRequestDTO.getEnd())
-                .timestamp(LocalDateTime.now())  // 현재 시간으로 설정
+                .startTime(LocalDateTime.now())  // 현재 시간으로 설정
                 .state(PathState.PROGRESS)       // 기본 상태를 PROGRESS로 설정
                 .build();
     }
@@ -26,7 +26,8 @@ public class PathConverter {
                 .start(path.getStart())
                 .end(path.getEnd())
                 .state(path.getState().name())
-                .timestamp(path.getTimestamp())
+                .startTime(path.getStartTime())
+                .endTime(path.getEndTime())  // 도착 시간이 없으면 null로 반환
                 .build();
     }
 }

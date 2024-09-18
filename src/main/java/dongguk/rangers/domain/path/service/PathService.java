@@ -12,4 +12,6 @@ public interface PathService {
     public PathResponseDTO savePath(PathRequestDTO pathRequestDTO);
     public List<DangerResponseDTO> getAllDangerousZones();
     public List<SafeResponseDTO> getAllSafeZones();
+
+    public PathResponseDTO completePath(Long pathId);
 }
