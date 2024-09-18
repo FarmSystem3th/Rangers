@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Entity
 @Table(name = "User")
 @NoArgsConstructor
@@ -27,4 +29,15 @@ public class User {
 
     @Column(nullable = false)
     private String password;
+
+    @Column(nullable = false)
+    private String email;
+
+    // 보호자 역할일 때의 연결들
+    @OneToMany(mappedBy = "guard")
+    private List<Connect> guardConnections;
+
+    // 피부양자 역할일 때의 연결들
+    @OneToMany(mappedBy = "dependant")
+    private List<Connect> dependantConnections;
 }
