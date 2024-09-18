@@ -35,6 +35,9 @@ jobs:
           RDS_HOST: ${{ secrets.RDS_HOST }}
           DB_USER: ${{ secrets.DB_USER }}
           DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          MAIL_HOST: ${{ secrets.MAIL_HOST }}   # 이메일 관련 환경 변수 추가
+          MAIL_ID: ${{ secrets.MAIL_ID }}       # 이메일 ID 환경 변수 추가
+          MAIL_PASSWORD: ${{ secrets.MAIL_PASSWORD }} # 이메일 패스워드 환경 변수 추가
 
       - name: Log in to Docker Hub
         uses: docker/login-action@v2
