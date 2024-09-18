@@ -9,7 +9,6 @@ import java.util.List;
 
 public interface PathService {
 
-    public PathResponseDTO savePath(PathRequestDTO pathRequestDTO);
     // userId로 경로를 조회하는 메소드 추가
     public PathResponseDTO getPathByUserId(Long userId);
     public PathResponseDTO savePath(PathRequestDTO pathRequestDTO);

@@ -45,6 +45,7 @@ public class PathServiceImpl implements PathService {
         Path path = pathRepository.findByUserId(userId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 사용자의 경로를 찾을 수 없습니다."));
         return PathConverter.toSavePathResponse(path);
+    }
 
     public List<DangerResponseDTO> getAllDangerousZones() {
         List<Danger> zones = dangerRepository.findAll();
