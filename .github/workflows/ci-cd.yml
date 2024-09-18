@@ -31,6 +31,10 @@ jobs:
 
       - name: Build with Gradle Wrapper
         run: ./gradlew build
+        env:
+          RDS_HOST: ${{ secrets.RDS_HOST }}
+          DB_USER: ${{ secrets.DB_USER }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
 
       - name: Log in to Docker Hub
         uses: docker/login-action@v2
@@ -65,7 +69,11 @@ jobs:
           fi
 
       - name: Run new Docker container
-        run: sudo docker run --rm -it -d -p 80:8080 --name rangers ${{ secrets.DOCKER_USERNAME }}/rangers:latest
+        run: sudo docker run --rm -it -d -p 80:8080 --name rangers \
+          -e RDS_HOST=${{ secrets.RDS_HOST }} \
+          -e DB_USER=${{ secrets.DB_USER }} \
+          -e DB_PASSWORD=${{ secrets.DB_PASSWORD }} \
+          ${{ secrets.DOCKER_USERNAME }}/rangers:latest
 
       - name: Clean up unused Docker data
         run: sudo docker system prune -f
