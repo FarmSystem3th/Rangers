@@ -3,11 +3,15 @@ package dongguk.rangers.domain.path.service;
 
 import dongguk.rangers.domain.path.converter.DangerConverter;
 import dongguk.rangers.domain.path.converter.PathConverter;
-import dongguk.rangers.domain.path.dto.DangerDTO;
+import dongguk.rangers.domain.path.converter.SafeConverter;
+import dongguk.rangers.domain.path.dto.DangerDTO.DangerResponseDTO;
+import dongguk.rangers.domain.path.dto.SafeDTO.SafeResponseDTO;
 import dongguk.rangers.domain.path.entity.Danger;
 import dongguk.rangers.domain.path.entity.Path;
+import dongguk.rangers.domain.path.entity.Safe;
 import dongguk.rangers.domain.path.repository.DangerRepository;
 import dongguk.rangers.domain.path.repository.PathRepository;
+import dongguk.rangers.domain.path.repository.SafeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,6 +28,7 @@ public class PathServiceImpl implements PathService {
 
     private final PathRepository pathRepository;
     private final DangerRepository dangerRepository;
+    private final SafeRepository safeRepository;
 
     public PathResponseDTO savePath(PathRequestDTO pathRequestDTO) {
         Path path = PathConverter.toPath(pathRequestDTO);
@@ -32,10 +37,17 @@ public class PathServiceImpl implements PathService {
         return PathConverter.toSavePathResponse(path);
     }
 
-    public List<DangerDTO.DangerResponseDTO> getAllDangerousZones() {
+    public List<DangerResponseDTO> getAllDangerousZones() {
         List<Danger> zones = dangerRepository.findAll();
         return zones.stream()
                 .map(DangerConverter::toDangerResponseDTO)
+                .collect(Collectors.toList());
+    }
+
+    public List<SafeResponseDTO> getAllSafeZones() {
+        List<Safe> zones = safeRepository.findAll();
+        return zones.stream()
+                .map(SafeConverter::toSafeResponseDTO)
                 .collect(Collectors.toList());
     }
 }

@@ -3,6 +3,7 @@ package dongguk.rangers.domain.path.controller;
 import dongguk.rangers.domain.path.dto.PathDTO.PathRequestDTO;
 import dongguk.rangers.domain.path.dto.PathDTO.PathResponseDTO;
 import dongguk.rangers.domain.path.dto.DangerDTO.DangerResponseDTO;
+import dongguk.rangers.domain.path.dto.SafeDTO.SafeResponseDTO;
 import dongguk.rangers.domain.path.service.PathService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -31,9 +32,16 @@ public class PathController {
     }
 
     @Operation(summary = "위험 구역 조회", description = "모든 위험 구역 정보를 조회합니다.")
-    @GetMapping("/zones")
+    @GetMapping("/danger")
     public ResponseEntity<List<DangerResponseDTO>> getAllDangerousZones() {
         List<DangerResponseDTO> zones = pathService.getAllDangerousZones();
+        return ResponseEntity.ok(zones);
+    }
+
+    @Operation(summary = "안전 시설 조회", description = "모든 안전 시설 정보를 조회합니다.")
+    @GetMapping("/safe")
+    public ResponseEntity<List<SafeResponseDTO>> getAllSafeZones() {
+        List<SafeResponseDTO> zones = pathService.getAllSafeZones();
         return ResponseEntity.ok(zones);
     }
 }
