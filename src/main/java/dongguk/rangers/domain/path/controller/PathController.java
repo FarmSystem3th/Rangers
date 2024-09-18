@@ -24,7 +24,7 @@ public class PathController {
 
     private final PathService pathService;
 
-    @Operation(summary = "경로 저장", description = "사용자가 입력한 출발 장소와 도착 장소를 저장합니다.")
+    @Operation(summary = "길찾기 시작", description = "사용자가 입력한 출발 장소와 도착 장소를 저장합니다.")
     @PostMapping("/save")
     public ResponseEntity<PathResponseDTO> savePath(@RequestBody @Validated PathRequestDTO pathRequestDTO) {
         PathResponseDTO responseDTO = pathService.savePath(pathRequestDTO);
@@ -43,5 +43,12 @@ public class PathController {
     public ResponseEntity<List<SafeResponseDTO>> getAllSafeZones() {
         List<SafeResponseDTO> zones = pathService.getAllSafeZones();
         return ResponseEntity.ok(zones);
+    }
+
+    @Operation(summary = "길찾기 종료", description = "안내를 완료로 설정하고 도착 시간을 기록합니다.")
+    @PatchMapping("/complete/{pathId}")
+    public ResponseEntity<PathResponseDTO> completePath(@PathVariable Long pathId) {
+        PathResponseDTO responseDTO = pathService.completePath(pathId);
+        return new ResponseEntity<>(responseDTO, HttpStatus.OK);
     }
 }

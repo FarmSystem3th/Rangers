@@ -25,6 +25,7 @@ public class PathDTO {
         private String start;
         private String end;
         private String state;
-        private LocalDateTime timestamp;
+        private LocalDateTime startTime;
+        private LocalDateTime endTime;
     }
 }

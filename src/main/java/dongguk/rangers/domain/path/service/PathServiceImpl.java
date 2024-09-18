@@ -8,6 +8,7 @@ import dongguk.rangers.domain.path.dto.DangerDTO.DangerResponseDTO;
 import dongguk.rangers.domain.path.dto.SafeDTO.SafeResponseDTO;
 import dongguk.rangers.domain.path.entity.Danger;
 import dongguk.rangers.domain.path.entity.Path;
+import dongguk.rangers.domain.path.entity.PathState;
 import dongguk.rangers.domain.path.entity.Safe;
 import dongguk.rangers.domain.path.repository.DangerRepository;
 import dongguk.rangers.domain.path.repository.PathRepository;
@@ -18,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import dongguk.rangers.domain.path.dto.PathDTO.PathResponseDTO;
 import dongguk.rangers.domain.path.dto.PathDTO.PathRequestDTO;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -49,5 +51,15 @@ public class PathServiceImpl implements PathService {
         return zones.stream()
                 .map(SafeConverter::toSafeResponseDTO)
                 .collect(Collectors.toList());
+    }
+
+    public PathResponseDTO completePath(Long pathId) {
+        Path path = pathRepository.findById(pathId).orElseThrow(() -> new RuntimeException("Path not found"));
+
+        // 도착 시간 기록 및 상태 변경
+        path.updateState(PathState.COMPLETED, LocalDateTime.now());
+        Path updatedPath = pathRepository.save(path);
+
+        return PathConverter.toSavePathResponse(updatedPath);
     }
 }
