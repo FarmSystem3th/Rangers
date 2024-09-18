@@ -39,8 +39,15 @@ public class Path {
     @Column(nullable = true)
     private LocalDateTime endTime;
 
+    @Column(nullable = false, columnDefinition = "int default 0")
+    private int dangerCnt;
+
     public void updateState(PathState newState, LocalDateTime newEndTime) {
         this.state = newState;  // 상태 업데이트
         this.endTime = newEndTime;  // 도착 시간 업데이트
+    }
+
+    public void updateDangerCnt(int newDangerCnt) {
+        this.dangerCnt = newDangerCnt;
     }
 }

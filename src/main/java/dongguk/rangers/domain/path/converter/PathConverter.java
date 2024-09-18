@@ -4,6 +4,7 @@ import dongguk.rangers.domain.path.entity.Path;
 import dongguk.rangers.domain.path.dto.PathDTO.PathRequestDTO;
 import dongguk.rangers.domain.path.dto.PathDTO.PathResponseDTO;
 import dongguk.rangers.domain.path.entity.PathState;
+import dongguk.rangers.domain.path.dto.PathDTO.DangerCntResponseDTO;
 
 import java.time.LocalDateTime;
 
@@ -28,6 +29,13 @@ public class PathConverter {
                 .state(path.getState().name())
                 .startTime(path.getStartTime())
                 .endTime(path.getEndTime())  // 도착 시간이 없으면 null로 반환
+                .build();
+    }
+
+    public static DangerCntResponseDTO toDangerCountResponseDTO(Path path) {
+        return DangerCntResponseDTO.builder()
+                .pathId(path.getPathId())
+                .dangerCnt(path.getDangerCnt())
                 .build();
     }
 }

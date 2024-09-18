@@ -18,6 +18,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import dongguk.rangers.domain.path.dto.PathDTO.PathResponseDTO;
 import dongguk.rangers.domain.path.dto.PathDTO.PathRequestDTO;
+import dongguk.rangers.domain.path.dto.PathDTO.DangerCntResponseDTO;
+import dongguk.rangers.domain.path.dto.PathDTO.DangerCntRequestDTO;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -69,5 +71,15 @@ public class PathServiceImpl implements PathService {
         Path updatedPath = pathRepository.save(path);
 
         return PathConverter.toSavePathResponse(updatedPath);
+    }
+
+    public DangerCntResponseDTO updateDangerCnt(DangerCntRequestDTO dangerCntRequestDTO) {
+        Path path = pathRepository.findById(dangerCntRequestDTO.getPathId())
+                .orElseThrow(() -> new IllegalArgumentException("경로를 찾을 수 없습니다."));
+
+        path.updateDangerCnt(dangerCntRequestDTO.getDangerCnt());
+        pathRepository.save(path);
+
+        return PathConverter.toDangerCountResponseDTO(path);
     }
 }
