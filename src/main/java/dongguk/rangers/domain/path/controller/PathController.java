@@ -1,7 +1,10 @@
 package dongguk.rangers.domain.path.controller;
 
+import dongguk.rangers.domain.path.dto.PathDTO;
 import dongguk.rangers.domain.path.dto.PathDTO.PathRequestDTO;
 import dongguk.rangers.domain.path.dto.PathDTO.PathResponseDTO;
+import dongguk.rangers.domain.path.dto.PathDTO.DangerCntResponseDTO;
+import dongguk.rangers.domain.path.dto.PathDTO.DangerCntRequestDTO;
 import dongguk.rangers.domain.path.dto.DangerDTO.DangerResponseDTO;
 import dongguk.rangers.domain.path.dto.SafeDTO.SafeResponseDTO;
 import dongguk.rangers.domain.path.service.PathService;
@@ -49,6 +52,13 @@ public class PathController {
     @PatchMapping("/complete/{pathId}")
     public ResponseEntity<PathResponseDTO> completePath(@PathVariable Long pathId) {
         PathResponseDTO responseDTO = pathService.completePath(pathId);
+        return new ResponseEntity<>(responseDTO, HttpStatus.OK);
+    }
+
+    @Operation(summary = "위험 구역 개수 업데이트", description = "경로에 대해 위험 구역 개수를 업데이트합니다.")
+    @PatchMapping("/update/danger-cnt")
+    public ResponseEntity<DangerCntResponseDTO> updateDangerCount(@RequestBody @Validated DangerCntRequestDTO dangerCntRequestDTO) {
+        DangerCntResponseDTO responseDTO = pathService.updateDangerCnt(dangerCntRequestDTO);
         return new ResponseEntity<>(responseDTO, HttpStatus.OK);
     }
 }
