@@ -20,7 +20,7 @@ public class UserService {
         return jwtTokenProvider.getUserIdFromJwt(token);
     }
 
-    // 닉네임 수정하기
+    // 닉네임 수정하기 예시
     @Transactional
     public void newNickName(String token, String newNickname) {
         Long userId = findUserIdByJwt(token);
