@@ -17,10 +17,10 @@ public class Connect {
     // 보호자 아이디와의 연결
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "guardId", nullable = false)
-    private User guard;
+    private Users guard;
 
     // 피부양자 아이디와의 연결
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "dependantId", nullable = false)
-    private User dependant;
+    private Users dependant;
 }
