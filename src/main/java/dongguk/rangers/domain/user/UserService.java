@@ -1,6 +1,6 @@
 package dongguk.rangers.domain.user;
 
-import dongguk.rangers.domain.user.entity.Users;
+import dongguk.rangers.domain.user.entity.User;
 import dongguk.rangers.domain.user.kakao.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,7 +24,7 @@ public class UserService {
     @Transactional
     public void newNickName(String token, String newNickname) {
         Long userId = findUserIdByJwt(token);
-        Users user = userRepository.findById(userId)
+        User user = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
 
         user.updateNickName(newNickname);
