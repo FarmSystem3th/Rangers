@@ -1,6 +1,6 @@
 package dongguk.rangers.domain.user.kakao;
 
-import dongguk.rangers.domain.user.entity.Users;
+import dongguk.rangers.domain.user.entity.User;
 import dongguk.rangers.domain.user.kakao.jwt.JwtTokenProvider;
 import dongguk.rangers.domain.user.UserRepository;
 import dongguk.rangers.domain.user.kakao.jwt.UserAuthentication;
@@ -88,7 +88,7 @@ public class KakaoService {
                 .block();
 
         if (!isDuplicateEmail(userInfo.getKakaoAccount().email)) {
-            Users newUser = Users.builder()
+            User newUser = User.builder()
                     .email(userInfo.getKakaoAccount().email)
                     .nickname(userInfo.getKakaoAccount().getProfile().nickName)
                     .build();
@@ -99,7 +99,7 @@ public class KakaoService {
     }
 
 
-    public Users getUserByEmail(String email) {
+    public User getUserByEmail(String email) {
         return userRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("이메일이 없습니다."));
     }
@@ -113,7 +113,7 @@ public class KakaoService {
 
         String accessToken = jwtTokenProvider.generateToken(userAuthentication);
 
-        Users users = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("Not Found User"));
+        User users = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("Not Found User"));
 
 
         return new LoginSuccessResponse(userId, accessToken, kakaoAccessToken);
