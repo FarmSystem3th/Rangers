@@ -1,4 +1,4 @@
-package dongguk.rangers.domain.user.dto.response;
+package dongguk.rangers.domain.user.kakao.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

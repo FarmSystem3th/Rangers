@@ -20,10 +20,10 @@ public class User {
     private Long userId;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(nullable = true)
     private Role role;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     // 보호자는 아이디, 피부양자는 코드
     private String codeId;
 
@@ -31,22 +31,34 @@ public class User {
     private String nickname;
 
     @Column(nullable = false)
-    private String password;
-
-    @Column(nullable = false)
     private String email;
 
-    // 카카오 로그인을 사용할 때 필요한 Builder
+    @Column(nullable = true)
+    private String birthday;
+
+    @Column(nullable = true)
+    private String birthyear;
+
     @Builder
-    public User(String email, String nickname) {
+    public User(String email, String nickname, String birthday, String birthyear) {
         this.email = email;
         this.nickname = nickname;
+        this.birthday = birthday;
+        this.birthyear = birthyear;
     }
 
     public void updateNickName(String nickname) {
         this.nickname = nickname;
     }
 
+    public void updateEmail(String email) {
+        this.email = email;
+    }
+
+    public void updateBirthday(String birthday, String birthyear) {
+        this.birthday = birthday;
+        this.birthyear = birthyear;
+    }
 
     // 보호자 역할일 때의 연결들
     @OneToMany(mappedBy = "guard")
