@@ -1,46 +1,64 @@
 package dongguk.rangers.domain.user;
 
-import dongguk.rangers.domain.user.dto.response.LoginSuccessResponse;
-import dongguk.rangers.domain.user.kakao.KakaoService;
+import dongguk.rangers.domain.user.dto.MyPageResponseDto;
+import dongguk.rangers.domain.user.dto.NicknameRequestDto;
+import dongguk.rangers.domain.user.dto.EmailRequestDto;
+import dongguk.rangers.domain.user.dto.BirthdayRequestDto;
+import dongguk.rangers.domain.user.kakao.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
 @Slf4j
-@Controller
+@RestController
 @RequiredArgsConstructor
 @RequestMapping("/api")
 @CrossOrigin(origins = "http://localhost:3000")
 public class UserController {
+
     private final UserService userService;
-    private final KakaoService kakaoService;
 
-    //TODO : 테스트용 나중에 지워야 함
-    @Value("${kakao.get_code_path}")
-    private String getCodePath;
-    @Value("${kakao.client_id}")
-    private String client_id;
-    @Value(("${kakao.redirect_uri}"))
-    private String redirect_uri;
-    @GetMapping("/kakao/login")
-    public String loginPage(Model model) {
-        String location = getCodePath + client_id + "&redirect_uri=" + redirect_uri;
-        model.addAttribute("location", location);
-        return "login";
-    }
-
-    @GetMapping("/kakao/callback")
-    public ResponseEntity<LoginSuccessResponse> callback(@RequestParam("code") String code) {
-        try {
-            LoginSuccessResponse userResponse = kakaoService.kakaoLogin(code);
-            return ResponseEntity.ok().body(userResponse);
-        } catch (Exception e) {
-            return ResponseEntity.status(500).build();
+    // JWT 토큰을 Authorization 헤더에서 추출하는 메서드
+    private static String getToken(String auth) {
+        if (auth == null || !auth.startsWith("Bearer ")) {
+            throw new RuntimeException("JWT Token is missing");
         }
+        return auth.substring(7);
     }
 
+    // 나의 마이페이지 보기
+    @GetMapping("/mypage")
+    public ResponseEntity<MyPageResponseDto> viewMyPage(@RequestHeader("Authorization") String authorizationHeader) {
+        String token = getToken(authorizationHeader);
+        MyPageResponseDto userProfile = userService.getUserProfile(token);
+        return ResponseEntity.ok(userProfile);
+    }
+
+    // 닉네임 수정
+    @PutMapping("/users/nickname")
+    public ResponseEntity<Void> updateNickname(@RequestHeader("Authorization") String auth,
+                                               @RequestBody NicknameRequestDto nicknameRequestDto) {
+        String token = getToken(auth);
+        userService.updateNickname(token, nicknameRequestDto.getNickname());
+        return ResponseEntity.ok().build();
+    }
+
+    // 이메일 수정
+    @PutMapping("/users/email")
+    public ResponseEntity<Void> updateEmail(@RequestHeader("Authorization") String auth,
+                                            @RequestBody EmailRequestDto emailRequestDto) {
+        String token = getToken(auth);
+        userService.updateEmail(token, emailRequestDto.getNewEmail());
+        return ResponseEntity.ok().build();
+    }
+
+    // 생년월일 수정
+    @PutMapping("/users/birthday")
+    public ResponseEntity<Void> updateBirthday(@RequestHeader("Authorization") String auth,
+                                               @RequestBody BirthdayRequestDto birthdayRequestDto) {
+        String token = getToken(auth);
+        userService.updateBirthday(token, birthdayRequestDto.getBirthday(), birthdayRequestDto.getBirthyear());
+        return ResponseEntity.ok().build();
+    }
 }

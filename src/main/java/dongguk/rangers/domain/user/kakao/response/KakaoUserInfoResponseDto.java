@@ -1,4 +1,4 @@
-package dongguk.rangers.domain.user.dto.response;
+package dongguk.rangers.domain.user.kakao.response;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -55,6 +55,14 @@ public class KakaoUserInfoResponseDto {
         @JsonProperty("email")
         public String email;
 
+        // 생일 (MMDD 형식)
+        @JsonProperty("birthday")
+        public String birthday;
+
+        // 출생연도 (yyyy 형식)
+        @JsonProperty("birthyear")
+        public String birthyear;
+
         @Getter
         @NoArgsConstructor
         @JsonIgnoreProperties(ignoreUnknown = true)
@@ -81,6 +89,7 @@ public class KakaoUserInfoResponseDto {
             //true : 기본 닉네임, false : 사용자 등록
             @JsonProperty("is_default_nickname")
             public Boolean isDefaultNickName;
+
 
         }
     }
