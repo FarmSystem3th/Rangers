@@ -1,11 +1,8 @@
-build/
-
 # Gradle 관련
 .gradle/
 !gradle/wrapper/gradle-wrapper.jar
 !gradle/wrapper/gradle-wrapper.properties
 !build/libs/
-
 
 # IntelliJ IDEA 관련
 .idea/
@@ -30,10 +27,6 @@ src/main/resources/.env
 *.swp
 .swp
 
-# 빌드 디렉토리
-# /out/ 디렉토리도 무시합니다. 필요에 따라 설정을 조정하세요.
-# /out/
-
 # 임시 파일
 *.tmp
 *.bak
@@ -42,9 +35,14 @@ src/main/resources/.env
 
 # src/main/resources 폴더의 모든 내용 포함
 !/src/main/resources/
+!/src/main/resources/application.properties
 
 # ci/cd 관련
 docker-compose.yml
 deploy.sh
 blue-nginx.conf
 green-nginx.conf
+
+
+
+
