@@ -1,3 +1,5 @@
+/build
+
 # Gradle 관련
 .gradle/
 !gradle/wrapper/gradle-wrapper.jar
