@@ -37,7 +37,6 @@ public class UserController {
         return ResponseEntity.ok().build();
     }
 
-
     // 보호자 피부양자 연결
     @PostMapping("/connect")
     public ResponseEntity<Void> connectGuardToDependant(@RequestHeader("Authorization") String auth,
@@ -46,7 +45,6 @@ public class UserController {
         userService.connectDependantToGuard(token, connectRequestDto.getDependantCode());
         return ResponseEntity.ok().build();
     }
-
 
     // 내 정보 불러오기
     @GetMapping("/mypage")
