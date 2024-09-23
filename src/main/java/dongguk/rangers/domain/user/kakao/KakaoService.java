@@ -2,7 +2,7 @@ package dongguk.rangers.domain.user.kakao;
 
 import dongguk.rangers.domain.user.entity.User;
 import dongguk.rangers.domain.user.kakao.jwt.JwtTokenProvider;
-import dongguk.rangers.domain.user.UserRepository;
+import dongguk.rangers.domain.user.repository.UserRepository;
 import dongguk.rangers.domain.user.kakao.jwt.UserAuthentication;
 import dongguk.rangers.domain.user.kakao.response.KakaoTokenResponseDto;
 import dongguk.rangers.domain.user.kakao.response.KakaoUserInfoResponseDto;

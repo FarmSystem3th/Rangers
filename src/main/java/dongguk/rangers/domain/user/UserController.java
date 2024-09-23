@@ -1,9 +1,7 @@
 package dongguk.rangers.domain.user;
 
-import dongguk.rangers.domain.user.dto.MyPageResponseDto;
-import dongguk.rangers.domain.user.dto.NicknameRequestDto;
-import dongguk.rangers.domain.user.dto.EmailRequestDto;
-import dongguk.rangers.domain.user.dto.BirthdayRequestDto;
+import dongguk.rangers.domain.user.dto.*;
+import dongguk.rangers.domain.user.entity.Role;
 import dongguk.rangers.domain.user.kakao.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -13,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api")
+@RequestMapping("/api/users")
 @CrossOrigin(origins = "http://localhost:3000")
 public class UserController {
 
@@ -27,7 +25,30 @@ public class UserController {
         return auth.substring(7);
     }
 
-    // 나의 마이페이지 보기
+    // 역할 등록
+    @PostMapping("/role")
+    public ResponseEntity<Void> registerRoleAndGenerateCode(@RequestHeader("Authorization") String auth,
+                                                            @RequestBody RoleRequestDto roleRequestDto) {
+        String token = getToken(auth);
+        userService.updateRole(token, roleRequestDto.getRole());
+        if (roleRequestDto.getRole() == Role.DEPENDANT) { // 피부양자라면 코드 생성
+            userService.generateCodeForDependant(token);
+        }
+        return ResponseEntity.ok().build();
+    }
+
+
+    // 보호자 피부양자 연결
+    @PostMapping("/connect")
+    public ResponseEntity<Void> connectGuardToDependant(@RequestHeader("Authorization") String auth,
+                                                        @RequestBody ConnectRequestDto connectRequestDto) {
+        String token = getToken(auth);
+        userService.connectDependantToGuard(token, connectRequestDto.getDependantCode());
+        return ResponseEntity.ok().build();
+    }
+
+
+    // 내 정보 불러오기
     @GetMapping("/mypage")
     public ResponseEntity<MyPageResponseDto> viewMyPage(@RequestHeader("Authorization") String authorizationHeader) {
         String token = getToken(authorizationHeader);
@@ -36,7 +57,7 @@ public class UserController {
     }
 
     // 닉네임 수정
-    @PutMapping("/users/nickname")
+    @PutMapping("/nickname")
     public ResponseEntity<Void> updateNickname(@RequestHeader("Authorization") String auth,
                                                @RequestBody NicknameRequestDto nicknameRequestDto) {
         String token = getToken(auth);
@@ -45,7 +66,7 @@ public class UserController {
     }
 
     // 이메일 수정
-    @PutMapping("/users/email")
+    @PutMapping("/email")
     public ResponseEntity<Void> updateEmail(@RequestHeader("Authorization") String auth,
                                             @RequestBody EmailRequestDto emailRequestDto) {
         String token = getToken(auth);
@@ -53,12 +74,4 @@ public class UserController {
         return ResponseEntity.ok().build();
     }
 
-    // 생년월일 수정
-    @PutMapping("/users/birthday")
-    public ResponseEntity<Void> updateBirthday(@RequestHeader("Authorization") String auth,
-                                               @RequestBody BirthdayRequestDto birthdayRequestDto) {
-        String token = getToken(auth);
-        userService.updateBirthday(token, birthdayRequestDto.getBirthday(), birthdayRequestDto.getBirthyear());
-        return ResponseEntity.ok().build();
-    }
 }
