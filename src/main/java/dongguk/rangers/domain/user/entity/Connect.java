@@ -3,11 +3,13 @@ package dongguk.rangers.domain.user.entity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import lombok.Getter;
 
 @Entity
 @Table(name = "Connect")
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
 public class Connect {
 
     @Id
@@ -23,4 +25,5 @@ public class Connect {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "dependantId", nullable = false)
     private User dependant;
+
 }

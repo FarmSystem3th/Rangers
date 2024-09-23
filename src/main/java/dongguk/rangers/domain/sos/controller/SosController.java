@@ -4,6 +4,9 @@ import dongguk.rangers.domain.sos.dto.SosRequestDTO;
 import dongguk.rangers.domain.sos.service.SosService;
 import dongguk.rangers.domain.path.dto.PathDTO.PathResponseDTO;
 import dongguk.rangers.domain.path.service.PathService;
+import dongguk.rangers.domain.user.entity.User;
+import dongguk.rangers.domain.user.repository.ConnectRepository;
+import dongguk.rangers.domain.user.repository.UserRepository;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +17,8 @@ import org.springframework.web.bind.annotation.*;
 
 import jakarta.mail.MessagingException;
 
+import java.util.Optional;
+
 @RestController
 @RequiredArgsConstructor
 @Validated
@@ -23,6 +28,8 @@ public class SosController {
 
     private final SosService sosService;
     private final PathService pathService;
+    private final ConnectRepository connectRepository;
+    private final UserRepository userRepository;
 
     @Operation(summary = "SOS 알림 보내기", description = "피부양자의 위치를 보호자에게 이메일로 보냅니다.")
     @PostMapping
@@ -32,9 +39,23 @@ public class SosController {
             Long dependantId = sosRequestDTO.getDependantId();
             PathResponseDTO pathResponseDTO = pathService.getPathByUserId(dependantId);
 
-            // User 정보가 없어서 임의로 설정
-            String guardianEmail = "pt840072@naver.com";  // 임의의 보호자 이메일
-            String dependantName = "최예인";                 // 임의의 피부양자 이름
+            // 피부양자의 정보를 조회
+            Optional<User> dependantOpt = userRepository.findById(dependantId);
+            if (dependantOpt.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("피부양자 정보를 찾을 수 없습니다.");
+            }
+            User dependant = dependantOpt.get();
+
+
+            // 보호자 정보를 조회
+            var connectOpt = connectRepository.findByDependant(dependant);
+            if (connectOpt.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("보호자 정보를 찾을 수 없습니다.");
+            }
+            User guardian = connectOpt.get().getGuard();
+
+            String guardianEmail = guardian.getEmail();
+            String dependantName = dependant.getNickname();
 
             // 경로 정보에서 출발 위치와 도착 위치 가져오기
             String startLocation = pathResponseDTO.getStart();
