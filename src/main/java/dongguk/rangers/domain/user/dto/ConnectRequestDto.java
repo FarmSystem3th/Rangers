@@ -5,11 +5,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-public class MyPageResponseDto {
-    private String nickname;
-    private Enum role;
-    private String email;
-
+@AllArgsConstructor
+public class ConnectRequestDto {
+    private String dependantCode;
 }

@@ -1,6 +1,7 @@
 package dongguk.rangers.domain.user.kakao;
 
 import dongguk.rangers.domain.user.UserService;
+import dongguk.rangers.domain.user.entity.User;
 import dongguk.rangers.domain.user.kakao.response.LoginSuccessResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

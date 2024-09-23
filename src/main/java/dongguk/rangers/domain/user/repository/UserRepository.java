@@ -1,4 +1,4 @@
-package dongguk.rangers.domain.user;
+package dongguk.rangers.domain.user.repository;
 
 import dongguk.rangers.domain.user.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -9,4 +9,6 @@ import java.util.Optional;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByEmail(String email);
+    Optional<User> findByCodeId(String codeId);
+
 }

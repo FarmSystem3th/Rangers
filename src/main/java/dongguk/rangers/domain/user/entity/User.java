@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity
@@ -33,18 +34,12 @@ public class User {
     @Column(nullable = false)
     private String email;
 
-    @Column(nullable = true)
-    private String birthday;
 
-    @Column(nullable = true)
-    private String birthyear;
 
     @Builder
-    public User(String email, String nickname, String birthday, String birthyear) {
+    public User(String email, String nickname) {
         this.email = email;
         this.nickname = nickname;
-        this.birthday = birthday;
-        this.birthyear = birthyear;
     }
 
     public void updateNickName(String nickname) {
@@ -55,10 +50,11 @@ public class User {
         this.email = email;
     }
 
-    public void updateBirthday(String birthday, String birthyear) {
-        this.birthday = birthday;
-        this.birthyear = birthyear;
-    }
+    public void updateRole(Role role) { this.role = role; }
+
+    public void updateCodeId(String codeId) { this.codeId = codeId; }
+
+
 
     // 보호자 역할일 때의 연결들
     @OneToMany(mappedBy = "guard")

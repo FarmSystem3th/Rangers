@@ -39,7 +39,7 @@ public class JwtTokenProvider {
                 .setIssuedAt(now)
                 .setExpiration(new Date(now.getTime() + TOKEN_EXPIRATION_TIME));
 
-        claims.put(USER_ID, authentication.getPrincipal()); //userId 추가
+        claims.put(USER_ID, authentication.getPrincipal());
         if (authentication instanceof UserAuthentication) {
             claims.put(KAKAO_ACCESS_TOKEN, ((UserAuthentication) authentication).getKakaoAccessToken());
         }
