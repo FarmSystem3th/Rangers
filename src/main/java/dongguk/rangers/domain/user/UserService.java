@@ -101,7 +101,9 @@ public class UserService {
         // Connect 엔티티로 연결 생성
         Connect connection = new Connect(null, guard, dependant);
         connectRepository.save(connection);
-    }
 
+        // 보호자의 codeId도 피부양자의 codeId로 설정
+        guard.updateCodeId(dependant.getCodeId());
+    }
 
 }
