@@ -28,6 +28,7 @@ public class SecurityConfig {
     private final CustomJwtAuthenticationEntryPoint customJwtAuthenticationEntryPoint;
     private final CustomAccessDeniedHandler customAccessDeniedHandler;
 
+    // Swagger 관련 경로 추가
     private static final String[] AUTH_WHITELIST = {
             "/static/**",
             "/favicon.ico",
@@ -38,6 +39,9 @@ public class SecurityConfig {
             "http://localhost:3000",
             "http://localhost:8080",
             "https://port-0-rangers-be-m1dcjhj379a3cf53.sel4.cloudtype.app",
+            "/swagger-ui.html",
+            "/swagger-ui/**",
+            "/v3/api-docs/**", // 이 경로 추가
             "/kakao/login",
             "/kakao/callback",
             "/kakao/callback/**",
@@ -57,9 +61,9 @@ public class SecurityConfig {
                 .exceptionHandling(e -> {
                     e.authenticationEntryPoint(customJwtAuthenticationEntryPoint);
                     e.accessDeniedHandler(customAccessDeniedHandler);
-                })
-        ;
+                });
 
+        // Swagger 경로를 허용 목록에 포함
         http.authorizeHttpRequests(auth -> {
                     auth.requestMatchers(AUTH_WHITELIST).permitAll();
                     auth.anyRequest().authenticated();
@@ -77,7 +81,11 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of("http://localhost:3000", "http://localhost:8080", "https://port-0-rangers-be-m1dcjhj379a3cf53.sel4.cloudtype.app")); // 허용할 도메인 설정
+        configuration.setAllowedOrigins(List.of(
+                "http://localhost:3000",
+                "http://localhost:8080",
+                "https://port-0-rangers-be-m1dcjhj379a3cf53.sel4.cloudtype.app"
+        ));
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("Authorization", "Cache-Control", "Content-Type"));
         configuration.setAllowCredentials(true);
