@@ -6,6 +6,7 @@ import dongguk.rangers.domain.path.dto.DangerDTO.DangerResponseDTO;
 import dongguk.rangers.domain.path.dto.SafeDTO.SafeResponseDTO;
 import dongguk.rangers.domain.path.dto.PathDTO.DangerCntResponseDTO;
 import dongguk.rangers.domain.path.dto.PathDTO.DangerCntRequestDTO;
+import dongguk.rangers.domain.path.dto.PathDTO.GuardianMainResponseDTO;
 
 import java.util.List;
 
@@ -19,4 +20,6 @@ public interface PathService {
     public PathResponseDTO completePath(Long pathId);
 
     DangerCntResponseDTO updateDangerCnt(DangerCntRequestDTO dangerCntRequestDTO);
+
+    List<GuardianMainResponseDTO> getGuardianMainBoard(Long userId);
 }

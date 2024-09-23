@@ -13,6 +13,10 @@ import dongguk.rangers.domain.path.entity.Safe;
 import dongguk.rangers.domain.path.repository.DangerRepository;
 import dongguk.rangers.domain.path.repository.PathRepository;
 import dongguk.rangers.domain.path.repository.SafeRepository;
+import dongguk.rangers.domain.user.entity.Connect;
+import dongguk.rangers.domain.user.entity.User;
+import dongguk.rangers.domain.user.repository.ConnectRepository;
+import dongguk.rangers.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +24,8 @@ import dongguk.rangers.domain.path.dto.PathDTO.PathResponseDTO;
 import dongguk.rangers.domain.path.dto.PathDTO.PathRequestDTO;
 import dongguk.rangers.domain.path.dto.PathDTO.DangerCntResponseDTO;
 import dongguk.rangers.domain.path.dto.PathDTO.DangerCntRequestDTO;
+import dongguk.rangers.domain.path.dto.PathDTO.GuardianMainResponseDTO;
+
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -33,6 +39,8 @@ public class PathServiceImpl implements PathService {
     private final PathRepository pathRepository;
     private final DangerRepository dangerRepository;
     private final SafeRepository safeRepository;
+    private final UserRepository userRepository;
+    private final ConnectRepository connectRepository;
 
     public PathResponseDTO savePath(PathRequestDTO pathRequestDTO) {
         Path path = PathConverter.toPath(pathRequestDTO);
@@ -44,8 +52,10 @@ public class PathServiceImpl implements PathService {
     // userId로 경로를 조회하는 메소드 구현
     @Override
     public PathResponseDTO getPathByUserId(Long userId) {
-        Path path = pathRepository.findByUserId(userId)
+        // 가장 최신의 경로를 가져옴
+        Path path = pathRepository.findTop1ByUserIdOrderByStartTimeDesc(userId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 사용자의 경로를 찾을 수 없습니다."));
+
         return PathConverter.toSavePathResponse(path);
     }
 
@@ -82,4 +92,30 @@ public class PathServiceImpl implements PathService {
 
         return PathConverter.toDangerCountResponseDTO(path);
     }
+    @Override
+    public List<GuardianMainResponseDTO> getGuardianMainBoard(Long userId) {
+        // 보호자 정보를 가져옴
+        User guardian = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("보호자를 찾을 수 없습니다."));
+
+        // Connect 테이블에서 보호자와 연결된 피부양자 정보를 조회
+        List<Connect> connections = connectRepository.findByGuard(guardian);
+
+        if (connections.isEmpty()) {
+            throw new IllegalArgumentException("연결된 피부양자를 찾을 수 없습니다.");
+        }
+
+        // 피부양자들과 각각의 경로 정보를 조회하여 DTO로 변환
+        return connections.stream()
+                .flatMap(connection -> {
+                    User dependant = connection.getDependant();
+                    // 피부양자의 경로 정보를 조회
+                    List<Path> paths = pathRepository.findByUserId(dependant.getUserId());
+
+                    return paths.stream()
+                            .map(path -> PathConverter.toGuardianMainResponse(path, guardian, dependant));
+                })
+                .collect(Collectors.toList());
+    }
+
 }

@@ -42,4 +42,21 @@ public class PathDTO {
         private Long pathId;
         private int dangerCnt;  // 위험 구역 개수
     }
+
+    @Data
+    @Builder
+    public static class GuardianMainResponseDTO {
+        private String guardianNickname; // 보호자 닉네임 추가
+        private String dependantNickname;   // 피부양자 닉네임
+        private String start;      // 경로 시작점
+        private String end;        // 경로 도착점
+        private int dangerCnt;     // 위험 구역 개수
+        private LocalDateTime startTime;  // 경로 시작 시간
+        private LocalDateTime endTime;    // 경로 종료 시간
+    }
+
+    @Data
+    public static class GuardianIdRequestDTO {
+        private Long userId;
+    }
 }
