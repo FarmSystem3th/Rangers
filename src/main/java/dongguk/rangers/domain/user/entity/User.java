@@ -24,8 +24,7 @@ public class User {
     @Column(nullable = true)
     private Role role;
 
-    @Column(nullable = true)
-    // 보호자는 아이디, 피부양자는 코드
+    @Column(nullable = true, unique = true)
     private String codeId;
 
     @Column(nullable = false)
