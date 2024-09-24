@@ -15,6 +15,10 @@ public class PathDTO {
         private Long userId;
         private String start;
         private String end;
+        private double startLatitude;
+        private double startLongitude;
+        private double endLatitude;
+        private double endLongitude;
     }
 
     @Data
@@ -34,6 +38,7 @@ public class PathDTO {
         private String state;
         private LocalDateTime startTime;
         private LocalDateTime endTime;
+        private int dangerCnt;
     }
 
     @Data

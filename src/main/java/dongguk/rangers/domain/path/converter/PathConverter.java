@@ -19,6 +19,7 @@ public class PathConverter {
                 .end(pathRequestDTO.getEnd())
                 .startTime(LocalDateTime.now())  // 현재 시간으로 설정
                 .state(PathState.PROGRESS)       // 기본 상태를 PROGRESS로 설정
+                .dangerCnt(0) // 초기화 (추후 업데이트됨)
                 .build();
     }
 
@@ -31,6 +32,7 @@ public class PathConverter {
                 .state(path.getState().name())
                 .startTime(path.getStartTime())
                 .endTime(path.getEndTime())  // 도착 시간이 없으면 null로 반환
+                .dangerCnt(path.getDangerCnt())
                 .build();
     }
 

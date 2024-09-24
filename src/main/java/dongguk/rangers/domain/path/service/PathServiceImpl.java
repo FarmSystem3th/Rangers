@@ -43,7 +43,20 @@ public class PathServiceImpl implements PathService {
     private final ConnectRepository connectRepository;
 
     public PathResponseDTO savePath(PathRequestDTO pathRequestDTO) {
+        // 시작 위치와 도착 위치의 위도 및 경도를 바탕으로 위험 구역을 검색
+        List<Danger> dangers = dangerRepository.findDangerZonesInRange(
+                Math.min(pathRequestDTO.getStartLatitude(), pathRequestDTO.getEndLatitude()),
+                Math.max(pathRequestDTO.getStartLatitude(), pathRequestDTO.getEndLatitude()),
+                Math.min(pathRequestDTO.getStartLongitude(), pathRequestDTO.getEndLongitude()),
+                Math.max(pathRequestDTO.getStartLongitude(), pathRequestDTO.getEndLongitude())
+        );
+
+        // 위험 구역 개수 계산
+        int dangerCnt = dangers.size();
+
+        // 경로 저장 시 위험 구역 개수를 포함
         Path path = PathConverter.toPath(pathRequestDTO);
+        path.updateDangerCnt(dangerCnt); // 위험 구역 개수 업데이트
         path = pathRepository.save(path);
 
         return PathConverter.toSavePathResponse(path);
