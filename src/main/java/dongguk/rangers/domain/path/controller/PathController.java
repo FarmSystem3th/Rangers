@@ -1,7 +1,6 @@
 package dongguk.rangers.domain.path.controller;
 
 import dongguk.rangers.domain.path.dto.PathDTO.GuardianMainResponseDTO;
-import dongguk.rangers.domain.path.dto.PathDTO.GuardianIdRequestDTO;
 import dongguk.rangers.domain.path.dto.PathDTO.PathRequestDTO;
 import dongguk.rangers.domain.path.dto.PathDTO.PathResponseDTO;
 import dongguk.rangers.domain.path.dto.PathDTO.DangerCntResponseDTO;
@@ -64,9 +63,9 @@ public class PathController {
     }
 
     @Operation(summary = "보호자 메인 화면 조회", description = "보호자와 연결된 피부양자의 경로 정보들을 조회합니다.")
-    @GetMapping("/board")
-    public ResponseEntity<List<GuardianMainResponseDTO>> getGuardianMainBoard(@RequestBody GuardianIdRequestDTO guardianIdRequestDTO) {
-        List<GuardianMainResponseDTO> response = pathService.getGuardianMainBoard(guardianIdRequestDTO.getUserId());
+    @GetMapping("/board/{userId}")
+    public ResponseEntity<List<GuardianMainResponseDTO>> getGuardianMainBoard(@PathVariable Long userId) {
+        List<GuardianMainResponseDTO> response = pathService.getGuardianMainBoard(userId);
         return ResponseEntity.ok(response);
     }
 }

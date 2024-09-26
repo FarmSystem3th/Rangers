@@ -59,9 +59,4 @@ public class PathDTO {
         private LocalDateTime startTime;  // 경로 시작 시간
         private LocalDateTime endTime;    // 경로 종료 시간
     }
-
-    @Data
-    public static class GuardianIdRequestDTO {
-        private Long userId;
-    }
 }
